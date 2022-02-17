@@ -22,7 +22,7 @@ function varargout = spt(varargin)
 
 % Edit the above text to modify the response to help spt
 
-% Last Modified by GUIDE v2.5 28-Jan-2022 17:29:03
+% Last Modified by GUIDE v2.5 17-Feb-2022 23:30:40
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -2407,6 +2407,7 @@ function Calculate_Callback(hObject, eventdata, handles)
 % hObject    handle to Calculate (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
 %% Accepting data from user
 
 length=str2double(get(handles.i1,'string'));
@@ -2425,7 +2426,8 @@ Pwidth_2=str2double(get(handles.i13,'string'));
 Sheight=str2double(get(handles.i14,'string'));
 outrad=str2double(get(handles.i15,'string'));
 inrad=str2double(get(handles.i16,'string'));
-%set(handles.o1,'string',vol);
+
+
 %% Calculation
 
 % Excavation of Septic Tank
@@ -2492,8 +2494,8 @@ set(handles.o29,'string',num2str(Lheight_2));
 set(handles.o30,'string',num2str(Lvolume_2));
 
 %short wall
-shortWlength_1=length-1-20/12-10/12; 
-shortWlength_2=shortWlength_1+10/12;
+shortWlength_1=width-1-2*Lwidth_1; 
+shortWlength_2=width-1-2*Lwidth_2;
 Svolume_1=2*shortWlength_1*Swidth_1*Sheight_1;
 Svolume_2=2*shortWlength_2*Swidth_2*Sheight_2;
 
@@ -2507,10 +2509,10 @@ set(handles.o37,'string',num2str(Sheight_2));
 set(handles.o38,'string',num2str(Svolume_2));
 
 %partition wall
-shortWlength_1=length-1-20/12-10/12; 
-shortWlength_2=shortWlength_1+10/12;
-Pvolume_1=2*shortWlength_1*Pwidth_1*Sheight_1;
-Pvolume_2=2*shortWlength_2*Pwidth_2*Sheight_2;
+shortWlength_1=width-1-2*Lwidth_1; 
+shortWlength_2=width-1-2*Lwidth_2;
+Pvolume_1=shortWlength_1*Pwidth_1*Sheight_1;
+Pvolume_2=shortWlength_2*Pwidth_2*Sheight_2;
 
 set(handles.o39,'string',num2str(shortWlength_1));
 set(handles.o40,'string',num2str(Pwidth_1));
@@ -2523,12 +2525,13 @@ set(handles.o46,'string',num2str(Pvolume_2));
 
 %0.5 in plastering
 %for long wall
-Lcplength_1=(length-1)-Lwidth_1;
+Lcplength_1=(length-1)-2*Lwidth_1;
 Lcparea_1=2*Lcplength_1*Lheight_1;
-Lcplength_2=(length-1)-Lwidth_2;
+Lcplength_2=(length-1)-2*Lwidth_2;
 Lcparea_2=2*Lcplength_2*Lheight_2;
-
-Lcparea_tot=Lcparea_1+Lcparea_2;
+%% deduct
+dArea=2*Pwidth_1*Sheight_1 +2*Pwidth_2*Sheight_2;
+Lcparea_tot=Lcparea_1+Lcparea_2-dArea;
 
 set(handles.o65,'string',num2str(Lcplength_1));
 set(handles.o66,'string',num2str(Lheight_1));
@@ -2632,7 +2635,7 @@ cost_Coarse=volume_Coarse*per_price_Coarse;
 
 
 
-% Excel code
+%% Excel code
 Item_No= {'1';'2';'3';'4';'5';'6';'7';'8'};
 Item_Description={'Earthwork Excavation';
     'Cement Concrete(1:3:6)';
@@ -2663,4 +2666,3 @@ Total_Price_taka={cost_excavation;
     };
 data=table(Item_No,Item_Description,Quantity_Times_Price_Per_Quantity,Total_Price_taka);
 writetable(data,'cost.xlsx');
-
