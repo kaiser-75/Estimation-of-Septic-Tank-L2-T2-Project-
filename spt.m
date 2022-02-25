@@ -2591,70 +2591,73 @@ CSvolume=BAarea*1.5;
 set(handles.o64,'string',num2str(CSvolume));
 
 
-%% Cost Estimation
+%% Cost Estimation 
+
 % 1. Excavation
 volume_excavation=Svolume+Sptvolume;
-per_price_excavation=1475/1631.53;
+per_price_excavation=1475;
 cost_excavation=volume_excavation*per_price_excavation;
 
 % 2. Cement Concrete
 volume_CC=CCvolume;
-per_price_CC=8991/69.72;
+per_price_CC=8991;
 cost_CC=volume_CC*per_price_CC;
 
 % 3. Precast
 volume_Precast=RCvolume+SRCvolume+Sswvolume;
-per_price_Precast=15073.53/149.25;
+per_price_Precast=15073.53;
 cost_Precast=volume_Precast*per_price_Precast;
 
 % 4. Brick
 volume_Brick=Lvolume_1+Lvolume_2+Svolume_1+Svolume_2+Pvolume_1+Pvolume_2;
-per_price_Brick=5629.40/346.51;
+per_price_Brick=5629.40;
 cost_Brick=volume_Brick*per_price_Brick;
 
 % 5. half inch plaster
 area_halfplaster=Scparea_tot+Lcparea_tot+SPcparea_tot;
-per_price_halfplaster=882/391.67;
+per_price_halfplaster=882;
 cost_halfplaster=area_halfplaster*per_price_halfplaster;
 
 % 6.3/4 inch plaster
 area_threebyfourplaster=Lcplength_1*Scplength_1;
-per_price_threebyfourplaster=1323/65.02;
-cost_threebyfourplaster=area_threebyfourplaster*per_price_threebyfourplaster
+per_price_threebyfourplaster=1323;
+cost_threebyfourplaster=area_threebyfourplaster*per_price_threebyfourplaster;
 
 % 7.Aggregate at bottom
 volume_Aggregate=BAvolume;
-per_price_Aggregate=33.50/9.62;
+per_price_Aggregate=33.50;
 cost_Aggregate=volume_Aggregate*per_price_Aggregate;
 
 % 8. Coarse Sand
 
 volume_Coarse=CSvolume;
-per_price_Coarse=33.50/14.43;
+per_price_Coarse=33.50;
 cost_Coarse=volume_Coarse*per_price_Coarse;
 
 
 
 %% Excel code
 Item_No= {'1';'2';'3';'4';'5';'6';'7';'8'};
-Item_Description={'Earthwork Excavation';
-    'Cement Concrete(1:3:6)';
-    'Precast RC Work';
+Item_Description={ 
+    'Earthwork Excavation'                                     ;
+    'Cement Concrete(1:3:6)'                                   ;
+    'Precast RC Work'                                          ;
     '1st Class Brickwork with 1:4 Cement Mortar in Septic Tank';
-    '1/2 inch Cement Plaster 1:3 For Septic  Tank';
-    '3/4 inch Cement Plaster 1:3 For Septic Tank';
-    'Aggregate at Bottom of Soak Pit';
-    'Coarse Sand at Bottom of Soak Pit';
+    '1/2 inch Cement Plaster 1:3 For Septic  Tank'             ;
+    '3/4 inch Cement Plaster 1:3 For Septic Tank'              ;
+    'Aggregate at Bottom of Soak Pit'                          ;
+    'Coarse Sand at Bottom of Soak Pit'                        ;
     };
-Quantity_Times_Price_Per_Quantity={'1631.53 cft @ 1475.00 per cft';
-    '69.72 cft @ 8991.00 per cft';
-    '149.25 cft @ 15073.53 per cft';
-    '346.51 cft @ 5629.40 per cft';
-    '391.67 sft @ 882.00 per sft';
-    '65.02 sft @ 1323.00 per sft';
-    '9.62 cft @ 33.50 per cft';
-    '14.43 cft @ 33.50 per cf'; 
-     }
+
+Price_Per_Quantity={'1475.00 per cft';
+    '8991.00 per cft';
+    '15073.53 per cft';
+    '5629.40 per cft';
+    '882.00 per sft';
+    '1323.00 per sft';
+    '33.50 per cft';
+    '33.50 per cft'; 
+     };
 Total_Price_taka={cost_excavation;
     cost_CC;
     cost_Precast;
@@ -2664,5 +2667,5 @@ Total_Price_taka={cost_excavation;
     cost_Aggregate;
     cost_Coarse;
     };
-data=table(Item_No,Item_Description,Quantity_Times_Price_Per_Quantity,Total_Price_taka);
+data=table(Item_No,Item_Description,Price_Per_Quantity,Total_Price_taka);
 writetable(data,'cost.xlsx');
